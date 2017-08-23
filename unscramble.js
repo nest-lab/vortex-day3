@@ -2,17 +2,21 @@ function generateDictionary(filename) {
 	let {readFileSync} = require('fs')
 	return readFileSync(filename).toString().split('\n')
 }
+Array.prototype.isEqual = function (other) {
+	return this.every((element, index) => element == other[index])
+}
 function unscramble(word, length, dict) {
 	possibleMatches = []
-	allCharsWord = word.match(/\w/g).filter(function(item, pos, self) {
+	allCharsWord = word.toLowerCase().match(/\w/g).filter(function(item, pos, self) {
     	return self.indexOf(item) == pos;
 	}).sort()
+	console.log(allCharsWord)
 	for (let i=0; i < dict.length; i++) {
 		if (dict[i].length == length) {
-			allCharsDict = dict[i].match(/\w/g).filter(function(item, pos, self) {
+			allCharsDict = dict[i].toLowerCase().match(/\w/g).filter(function(item, pos, self) {
 		    	return self.indexOf(item) == pos;
 			}).sort()
-			if (allCharsWord.every((element, index) => element === allCharsDict[index])) {
+			if (allCharsWord.isEqual(allCharsDict)) {
 				possibleMatches.push(dict[i])
 			}
 		}

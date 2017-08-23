@@ -4,6 +4,7 @@ class Node {
 		this.children = children
 	}
 }
+
 function beamSearch(rootNode, isGoal, determineCost, beamWidth) {
 	let underConsideration = [rootNode]
 	while (underConsideration.length > 0) {

@@ -10,7 +10,6 @@ function unscramble(word, length, dict) {
 	allCharsWord = word.toLowerCase().match(/\w/g).filter(function(item, pos, self) {
     	return self.indexOf(item) == pos;
 	}).sort()
-	console.log(allCharsWord)
 	for (let i=0; i < dict.length; i++) {
 		if (dict[i].length == length) {
 			allCharsDict = dict[i].toLowerCase().match(/\w/g).filter(function(item, pos, self) {

@@ -56,12 +56,35 @@ function itemsOfInterest(array) {
 	return items
 }
 
+function parseFile(filename) {
+	let fs = require('fs')
+	contents = fs.readFileSync(filename)
+	lines = contents.toString().split('\r\n')
+	matrices = []
+	currentMatrix = []
+	curMatrixW = 0
+	curMatrixH = 0
+	for (let i=0; i < lines.length; i++) {
+		line = lines[i]
+		if (line.startsWith('//') || line == "") continue
+		if (line.indexOf('x') > 0) {
+			if (currentMatrix.length != 0) {
+				matrices.push(currentMatrix)
+				currentMatrix = []
+			}
+			curMatrixW = parseInt(line.substr(0,1), 10)
+			curMatrixH = parseInt(line.substr(2,3), 10)
+			continue
+		}			
+		values = line.split(' ')
+		row = values.map((item) => parseInt(item, 10))
+		currentMatrix.push(row)
+	}
+	matrices.push(currentMatrix)
+	return matrices
+}
 
-console.log(itemsOfInterest([[3, 2, 4],
-							 [2, 1, 3],
-							 [1, 5, 6]]))
-
-console.log(itemsOfInterest([[4, 5, 1, 3],
-							 [8, 9, 0, 5],
-							 [3, 2, 9, 1],
-							 [7, 3, 4, 1]]))
+parseFile("input_matrices.txt").reduce((accum, item) => {
+	console.log(itemsOfInterest(item))
+	return accum
+}, 0)
